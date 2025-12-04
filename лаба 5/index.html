@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BioHarmony - Натуральные БАДы для вашего здоровья</title>
+    <title>BioHarmony - Главная</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
         <div class="container">
-            <a href="#" class="logo">BioHarmony</a>
+            <a href="index.html" class="logo">BioHarmony</a>
             <nav>
                 <ul>
-                    <li><a href="#">Главная</a></li>
+                    <li><a href="index.html">Главная</a></li>
                     <li><a href="#">Каталог</a></li>
                     <li><a href="#">Цели</a></li>
                     <li><a href="#">О нас</a></li>
+                    <li><a href="cart.html" style="margin-left: 20px;">Корзина <span id="cart-count">(0)</span></a></li>
                 </ul>
             </nav>
-            <a href="#" class="cart-icon">Корзина (0)</a>
         </div>
     </header>
 
@@ -28,6 +28,8 @@
             <div class="container">
                 <h1>Гармония с природой для вашего здоровья</h1>
                 <p>Откройте для себя мир натуральных биодобавок.</p>
+                
+                <!-- Вернули строку поиска -->
                 <div class="search-bar">
                     <input type="text" placeholder="Найти, например, Омега-3...">
                     <button>Поиск</button>
@@ -35,6 +37,7 @@
             </div>
         </section>
 
+        <!-- Вернули блок "Цели" -->
         <section class="categories">
             <div class="container">
                 <h2>Выберите вашу цель</h2>
@@ -59,26 +62,31 @@
             <div class="container">
                 <h2>Популярные товары</h2>
                 <div class="product-grid">
+                    <!-- Товар 1 -->
                     <div class="product-card">
                         <img src="https://via.placeholder.com/200" alt="Омега-3">
                         <h3>Омега-3 950 мг</h3>
                         <p>Для поддержки сердца и сосудов</p>
                         <div class="price">1500 руб.</div>
-                        <button>В корзину</button>
+                        <button onclick="addToCart('Омега-3 950 мг', 1500)">В корзину</button>
                     </div>
+
+                    <!-- Товар 2 -->
                     <div class="product-card">
                         <img src="https://via.placeholder.com/200" alt="Витамин D3">
                         <h3>Витамин D3 2000 МЕ</h3>
                         <p>Для костей и иммунитета</p>
                         <div class="price">990 руб.</div>
-                        <button>В корзину</button>
+                        <button onclick="addToCart('Витамин D3 2000 МЕ', 990)">В корзину</button>
                     </div>
+
+                    <!-- Товар 3 -->
                     <div class="product-card">
                         <img src="https://via.placeholder.com/200" alt="Мелатонин">
                         <h3>Мелатонин 3 мг</h3>
                         <p>Для здорового сна</p>
                         <div class="price">1200 руб.</div>
-                        <button>В корзину</button>
+                        <button onclick="addToCart('Мелатонин 3 мг', 1200)">В корзину</button>
                     </div>
                 </div>
             </div>
@@ -91,5 +99,27 @@
         </div>
     </footer>
 
+    <!-- Скрипт остаётся тот же, работающий -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            updateHeaderCount();
+        });
+
+        function addToCart(name, price) {
+            let cart = JSON.parse(localStorage.getItem('myCart')) || [];
+            cart.push({ name: name, price: price });
+            localStorage.setItem('myCart', JSON.stringify(cart));
+            updateHeaderCount();
+            alert(name + ' добавлен в корзину!');
+        }
+
+        function updateHeaderCount() {
+            let cart = JSON.parse(localStorage.getItem('myCart')) || [];
+            let countSpan = document.getElementById('cart-count');
+            if (countSpan) {
+                countSpan.innerText = '(' + cart.length + ')';
+            }
+        }
+    </script>
 </body>
 </html>

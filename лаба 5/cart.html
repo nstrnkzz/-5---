@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Корзина - BioHarmony</title>
+    <title>BioHarmony - Корзина</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,47 +14,94 @@
             <nav>
                 <ul>
                     <li><a href="index.html">Главная</a></li>
-                    <li><a href="#">Каталог</a></li>
+                    <li><a href="cart.html">Корзина <span id="cart-count">(0)</span></a></li>
                 </ul>
             </nav>
-            <a href="cart.html" class="cart-icon">Корзина (0)</a>
         </div>
     </header>
 
     <main>
-        <section class="cart-section">
-            <div class="container">
-                <h2>Ваша корзина</h2>
-                <div id="cart-items">
-                    <p>Ваша корзина пуста.</p>
-                </div>
-                
-                <div class="checkout-form-container">
-                    <h3>Оформление заказа</h3>
-                    <form id="checkout-form">
-                        <div class="form-group">
-                            <label for="name">Ваше имя</label>
-                            <input type="text" id="name" name="name" required>
-                            <p class="error-message"></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
-                            <p class="error-message"></p>
-                        </div>
-                        <button type="submit">Оформить заказ</button>
-                    </form>
-                </div>
+        <div class="container">
+            <h2>Ваш заказ</h2>
+            <div id="cart-list"></div>
+            <h3 id="total-price" style="margin-top: 20px;">Итого: 0 руб.</h3>
+
+            <div class="checkout-form-container" style="margin-top: 40px; max-width: 400px;">
+                <h3>Оформление</h3>
+                <form onsubmit="submitOrder(event)">
+                    <div class="form-group">
+                        <label>Имя:</label>
+                        <input type="text" id="client-name" required style="width: 100%; padding: 8px;">
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label>Email:</label>
+                        <input type="email" id="client-email" required style="width: 100%; padding: 8px;">
+                    </div>
+                    <button type="submit" style="margin-top: 15px; padding: 10px 20px; background: #2E8B57; color: white; border: none; cursor: pointer;">Оформить заказ</button>
+                </form>
             </div>
-        </section>
+        </div>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 BioHarmony. Все права защищены.</p>
-        </div>
-    </footer>
+    <!-- Встроенный скрипт для корзины -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            updateHeaderCount();
+            renderCartPage();
+        });
 
-    <script src="script.js"></script>
+        function updateHeaderCount() {
+            let cart = JSON.parse(localStorage.getItem('myCart')) || [];
+            let countSpan = document.getElementById('cart-count');
+            if (countSpan) {
+                countSpan.innerText = '(' + cart.length + ')';
+            }
+        }
+
+        function renderCartPage() {
+            let cart = JSON.parse(localStorage.getItem('myCart')) || [];
+            let container = document.getElementById('cart-list');
+            let totalElement = document.getElementById('total-price');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '<p>Корзина пуста</p>';
+                totalElement.innerText = 'Итого: 0 руб.';
+                return;
+            }
+            
+            let html = '';
+            let totalSum = 0;
+            
+            cart.forEach(function(item, index) {
+                totalSum += item.price;
+                html += '<div style="border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between;">' +
+                        '<span>' + item.name + '</span>' +
+                        '<b>' + item.price + ' руб.</b>' +
+                        '<button onclick="removeItem(' + index + ')" style="color: red; border: none; background: none; cursor: pointer;">Удалить</button>' +
+                        '</div>';
+            });
+            
+            container.innerHTML = html;
+            totalElement.innerText = 'Итого: ' + totalSum + ' руб.';
+        }
+
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('myCart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('myCart', JSON.stringify(cart));
+            renderCartPage();
+            updateHeaderCount();
+        }
+
+        function submitOrder(event) {
+            event.preventDefault();
+            let name = document.getElementById('client-name').value;
+            if(name) {
+                alert('Спасибо, ' + name + '! Ваш заказ оформлен.');
+                localStorage.removeItem('myCart');
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
 </body>
 </html>

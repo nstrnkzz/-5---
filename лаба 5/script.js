@@ -1,94 +1,64 @@
-document.addEventListener('DOMContentLoaded', () => {
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>BioHarmony - Главная</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">BioHarmony</a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="cart.html">Корзина <span id="cart-count">(0)</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-    function updateCartIcon() {
-        const cartIcon = document.querySelector('.cart-icon');
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        if (cartIcon) {
-            cartIcon.textContent = `Корзина (${totalItems})`;
-        }
-    }
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Натуральные БАДы для здоровья</h1>
+            </div>
+        </section>
 
-    function saveCart() {
-        localStorage.setItem('cart', JSON.stringify(cart));
-    }
-
-    // --- Логика для index.html ---
-    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            const card = e.target.closest('.product-card');
-            const productId = card.dataset.productId;
-            const productName = card.dataset.productName;
-            const productPrice = parseInt(card.dataset.productPrice, 10);
-
-            const existingItem = cart.find(item => item.id === productId);
-            if (existingItem) {
-                existingItem.quantity++;
-            } else {
-                cart.push({ id: productId, name: productName, price: productPrice, quantity: 1 });
-            }
-            
-            saveCart();
-            updateCartIcon();
-            alert(`${productName} добавлен в корзину!`);
-        });
-    });
-
-    // --- Логика для cart.html ---
-    if (document.getElementById('cart-items')) {
-        const cartItemsContainer = document.getElementById('cart-items');
-        
-        if (cart.length === 0) {
-            cartItemsContainer.innerHTML = '<p>Ваша корзина пуста.</p>';
-        } else {
-            let total = 0;
-            cartItemsContainer.innerHTML = cart.map(item => {
-                total += item.price * item.quantity;
-                return `
-                    <div class="cart-item">
-                        <span>${item.name} (x${item.quantity})</span>
-                        <strong>${item.price * item.quantity} руб.</strong>
+        <section class="featured-products">
+            <div class="container">
+                <h2>Популярные товары</h2>
+                <div class="product-grid">
+                    <!-- Товар 1 -->
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/200" alt="Омега-3">
+                        <h3>Омега-3 950 мг</h3>
+                        <div class="price">1500 руб.</div>
+                        <!-- Прямой вызов функции -->
+                        <button onclick="addToCart('Омега-3 950 мг', 1500)">В корзину</button>
                     </div>
-                `;
-            }).join('') + `<div class="cart-item"><strong>Итого:</strong><strong>${total} руб.</strong></div>`;
-        }
 
-        const checkoutForm = document.getElementById('checkout-form');
-        checkoutForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            let isValid = true;
-            
-            const nameInput = document.getElementById('name');
-            const emailInput = document.getElementById('email');
+                    <!-- Товар 2 -->
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/200" alt="Витамин D3">
+                        <h3>Витамин D3 2000 МЕ</h3>
+                        <div class="price">990 руб.</div>
+                        <button onclick="addToCart('Витамин D3 2000 МЕ', 990)">В корзину</button>
+                    </div>
 
-            // Сброс ошибок
-            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
-            document.querySelectorAll('input.error').forEach(el => el.classList.remove('error'));
+                    <!-- Товар 3 -->
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/200" alt="Мелатонин">
+                        <h3>Мелатонин 3 мг</h3>
+                        <div class="price">1200 руб.</div>
+                        <button onclick="addToCart('Мелатонин 3 мг', 1200)">В корзину</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-            // Валидация имени
-            if (nameInput.value.trim() === '') {
-                isValid = false;
-                nameInput.classList.add('error');
-                nameInput.nextElementSibling.textContent = 'Пожалуйста, введите ваше имя.';
-            }
-
-            // Валидация email
-            if (emailInput.value.trim() === '' || !emailInput.value.includes('@')) {
-                isValid = false;
-                emailInput.classList.add('error');
-                emailInput.nextElementSibling.textContent = 'Пожалуйста, введите корректный email.';
-            }
-
-            if (isValid) {
-                alert('Заказ успешно оформлен! Мы скоро с вами свяжемся.');
-                localStorage.removeItem('cart'); // Очищаем корзину
-                window.location.href = 'index.html'; // Возвращаем на главную
-            }
-        });
-    }
-    
-    // Первоначальное обновление иконки при загрузке любой страницы
-    updateCartIcon();
-});
+    <script src="script.js"></script>
+</body>
+</html>
