@@ -1,0 +1,31 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0; background-color: #f9f9f9; color: #333;
+}
+.container { width: 90%; max-width: 1200px; margin: 0 auto; }
+header { background-color: #fff; padding: 15px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; }
+header .container { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 24px; font-weight: bold; color: #2E8B57; text-decoration: none; }
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; }
+nav ul li { margin-left: 20px; }
+nav a, .cart-icon { text-decoration: none; color: #333; font-weight: 500; }
+.hero { background-color: #F0FFF0; padding: 60px 0; text-align: center; }
+h1, h2 { text-align: center; }
+section { padding: 40px 0; }
+.category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.category-card { background-color: #fff; padding: 40px 20px; text-align: center; border: 1px solid #eee; border-radius: 8px; cursor: pointer; transition: box-shadow 0.3s; }
+.category-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.product-card { background-color: #fff; border: 1px solid #eee; border-radius: 8px; padding: 20px; text-align: center; }
+.product-card img { max-width: 100%; height: 150px; object-fit: cover; margin-bottom: 15px; }
+.price { font-size: 20px; font-weight: bold; color: #2E8B57; margin: 10px 0; }
+.product-card button { width: 100%; padding: 12px; border: none; background-color: #2E8B57; color: white; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background-color 0.3s; }
+.product-card button:hover { background-color: #256d44; }
+footer { text-align: center; padding: 20px 0; background-color: #333; color: #fff; }
+.cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+.checkout-form-container { margin-top: 40px; background: #fff; padding: 20px; border-radius: 8px; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; }
+.form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+.form-group input.error { border-color: red; }
+.error-message { color: red; font-size: 12px; margin-top: 5px; }
